@@ -1,0 +1,14 @@
+version: '3'
+services:
+  flyway-jooq-db:
+    image: percona:5.7.18
+    ports:
+      - "60005:3306"
+    volumes:
+      - flyway-jooq-db-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: flyway-jooq
+    command: [mysqld,  --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci]
+volumes:
+  flyway-jooq-db-data:
