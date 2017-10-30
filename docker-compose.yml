@@ -2,6 +2,7 @@ version: '3'
 services:
   flyway-jooq-db:
     image: mysql:5.7
+    restart: always
     ports:
       - "60005:3306"
     volumes:
