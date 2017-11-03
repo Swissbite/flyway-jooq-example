@@ -1,0 +1,2 @@
+ALTER TABLE airports MODIFY type ENUM('balloonport','closed','heliport','large_airport','medium_airport','seaplane_base','small_airport') not null;
+ALTER TABLE airports MODIFY scheduled_service ENUM('yes', 'no') not NULL;
