@@ -37,15 +37,15 @@ CREATE TABLE airports
   elevation_ft      MEDIUMTEXT   NULL,
   continent         VARCHAR(2)   NULL,
   iso_country       VARCHAR(2)   NULL,
-  iso_region        VARCHAR(2)   NULL,
-  municipality      VARCHAR(10)  NULL,
+  iso_region        VARCHAR(10)   NULL,
+  municipality      VARCHAR(50)  NULL,
   scheduled_service VARCHAR(50)  NULL,
   gps_code          VARCHAR(50)  NULL,
   iata_code         VARCHAR(50)  NULL,
   local_code        VARCHAR(50)  NULL,
   home_link         VARCHAR(300) NULL,
   wikipedia_link    VARCHAR(300) NULL,
-  keywords          VARCHAR(300) NULL,
+  keywords          TEXT NULL,
   CONSTRAINT airports_ident_uindex
   UNIQUE (ident)
 );
