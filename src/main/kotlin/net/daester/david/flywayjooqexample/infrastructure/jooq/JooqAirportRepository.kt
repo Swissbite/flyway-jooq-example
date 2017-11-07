@@ -1,6 +1,7 @@
 package net.daester.david.flywayjooqexample.infrastructure.jooq
 
 import ch.zvv.kds.infrastructure.jooq.Tables
+import ch.zvv.kds.infrastructure.jooq.Tables.*
 import ch.zvv.kds.infrastructure.jooq.enums.AirportsScheduledService
 import ch.zvv.kds.infrastructure.jooq.enums.AirportsType
 import ch.zvv.kds.infrastructure.jooq.enums.VAirportDistancesTargetAirportScheduledService
@@ -34,21 +35,25 @@ class JooqAirportRepository(private val jooq: DSLContext, configuration: Configu
                 emptyList()
             }
 
-    override fun getAllAirportsByCountry(isoCountry: String): List<Airport>
-            = fetchByIsoCountry(isoCountry).map { it.asDomain() }
+    override fun getAllAirportsByCountry(isoCountry: String): List<Airport> =
+            jooq.selectFrom(AIRPORTS).where(
+                    AIRPORTS.COUNTRY_ID.`in`(
+                            jooq.select(COUNTRIES.ID).from(COUNTRIES).where(COUNTRIES.CODE.eq(isoCountry))
+                    )
+            ).map { it.asDomain() }
 
     override fun getAllAirportsReachableFrom(currentAirportIdent: String,
                                              distanceInMeter: Long,
                                              requiresService: Boolean): List<Airport> =
-            jooq.selectFrom(Tables.AIRPORTS)
-                    .where(Tables.AIRPORTS.ID.`in`(
-                            jooq.select(Tables.V_AIRPORT_DISTANCES.TARGET_AIRPORT_ID)
-                                    .from(Tables.V_AIRPORT_DISTANCES)
-                                    .where(Tables.V_AIRPORT_DISTANCES.START_AIRPORT_IDENT.eq(currentAirportIdent))
-                                    .and(Tables.V_AIRPORT_DISTANCES.DISTANCE_IN_METER.le(distanceInMeter.toDouble()))
+            jooq.selectFrom(AIRPORTS)
+                    .where(AIRPORTS.ID.`in`(
+                            jooq.select(V_AIRPORT_DISTANCES.TARGET_AIRPORT_ID)
+                                    .from(V_AIRPORT_DISTANCES)
+                                    .where(V_AIRPORT_DISTANCES.START_AIRPORT_IDENT.eq(currentAirportIdent))
+                                    .and(V_AIRPORT_DISTANCES.DISTANCE_IN_METER.le(distanceInMeter.toDouble()))
                                     .let {
                                         if (requiresService)
-                                            it.and(Tables.V_AIRPORT_DISTANCES.TARGET_AIRPORT_SCHEDULED_SERVICE.eq(VAirportDistancesTargetAirportScheduledService.yes))
+                                            it.and(V_AIRPORT_DISTANCES.TARGET_AIRPORT_SCHEDULED_SERVICE.eq(VAirportDistancesTargetAirportScheduledService.yes))
                                         else
                                             it
                                     })
