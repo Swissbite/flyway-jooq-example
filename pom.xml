@@ -186,6 +186,13 @@
                         <password>${spring.datasource.password}</password>
                     </jdbc>
                     <generator>
+                        <name>org.jooq.util.JavaGenerator</name>
+                        <generate>
+                            <pojos>true</pojos>
+                            <daos>true</daos>
+                            <relations>true</relations>
+
+                        </generate>
                         <database>
                             <name>org.jooq.util.mysql.MySQLDatabase</name>
                             <includes>.*</includes>
