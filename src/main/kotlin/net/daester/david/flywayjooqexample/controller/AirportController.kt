@@ -15,4 +15,7 @@ class AirportController(private val airportRepository: AirportRepository) {
 
     @GetMapping("/by_type/{type}")
     fun getAllAirportsByType(@PathVariable type: String) = airportRepository.getAllAirportsByType(type)
+
+    @GetMapping("/by_country/{isoCountry}")
+    fun getAllAirportsByCountry(@PathVariable isoCountry: String) = airportRepository.getAllAirportsByCountry(isoCountry)
 }

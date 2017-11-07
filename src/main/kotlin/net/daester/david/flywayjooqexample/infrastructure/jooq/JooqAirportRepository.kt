@@ -25,5 +25,9 @@ class JooqAirportRepository(private val jooq: DSLContext) : AirportRepository {
         emptyList()
     }
 
+    override fun getAllAirportsByCountry(isoCountry: String): List<Airport> =
+            jooq.selectFrom(AIRPORTS).where(AIRPORTS.ISO_COUNTRY.eq(isoCountry)).map { it.asDomain() }
+
+
     private fun AirportsRecord.asDomain() = Airport(id, name)
 }
