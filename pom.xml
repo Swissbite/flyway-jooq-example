@@ -188,10 +188,8 @@
                     <generator>
                         <name>org.jooq.util.JavaGenerator</name>
                         <generate>
-                            <pojos>true</pojos>
-                            <daos>true</daos>
-                            <relations>true</relations>
-
+                            <interfaces>true</interfaces>
+                            <fluentSetters>true</fluentSetters>
                         </generate>
                         <database>
                             <name>org.jooq.util.mysql.MySQLDatabase</name>
@@ -200,7 +198,7 @@
                             <inputSchema>flyway-jooq</inputSchema>
                         </database>
                         <target>
-                            <packageName>ch.zvv.kds.infrastructure.jooq</packageName>
+                            <packageName>net.daester.david.flyawayjooqexample.infrastructure.jooq</packageName>
                             <directory>${project.build.directory}/generated-sources/jooq</directory>
                         </target>
                     </generator>
